@@ -1,0 +1,85 @@
+/* TABLE-STYLE */
+table,
+tr,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+tr {
+  height: 60px;
+}
+
+td {
+  width: 60px;
+}
+
+h1 {
+  color: blue;
+}
+
+/* OTHER STYLE */
+.top-bar {
+  display: inline-block;
+}
+
+/* CHESS-LOGIC */
+.white {
+  background-color: white;
+}
+
+.black {
+  background-color: burlywood;
+}
+
+.active {
+  border: 2px solid red;
+}
+
+.blackRook {
+  background-image: url(/pieces/brook.png);
+}
+
+.whiteRook {
+  background-image: url(/pieces/wrook.png);
+}
+
+.blackKnight {
+  background-image: url(/pieces/bknight.png);
+}
+
+.whiteKnight {
+  background-image: url(/pieces/wknight.png);
+}
+
+.blackBishop {
+  background-image: url(/pieces/bbishop.png);
+}
+
+.whiteBishop {
+  background-image: url(/pieces/wbishop.png);
+}
+
+.blackKing {
+  background-image: url(/pieces/bking.png);
+}
+
+.whiteKing {
+  background-image: url(/pieces/wking.png);
+}
+
+.blackQueen {
+  background-image: url(/pieces/bqueen.png);
+}
+
+.whiteQueen {
+  background-image: url(/pieces/wqueen.png);
+}
+
+.blackPawn {
+  background-image: url(/pieces/bpawn.png);
+}
+
+.whitePawn {
+  background-image: url(/pieces/wpawn.png);
+}

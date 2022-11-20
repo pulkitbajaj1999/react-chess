@@ -36,10 +36,13 @@ h1 {
   background-color: burlywood;
 }
 
-.active {
-  border: 2px solid red;
+.white.active {
+  background-color: rgb(250, 234, 128);
 }
 
+.black.active {
+  background-color: rgb(242, 213, 28);
+}
 
 /* PIECE IMAGES */
 

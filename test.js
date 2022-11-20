@@ -1,17 +1,17 @@
 const convertFenToBoardMapping = (fen) => {
   const isDigit = (symbol) => {
-    return Number.isInteger(symbol)
+    return Number.isInteger(+symbol)
   }
   const isUpper = (symbol) => {
     return symbol === symbol.toUpperCase()
   }
   const mappedPieceData = {
-    r: 'Rook',
-    b: 'Bishop',
-    n: 'Knight',
-    k: 'King',
-    q: 'Queen',
-    p: 'Pawn',
+    r: 'rook',
+    b: 'bishop',
+    n: 'knight',
+    k: 'king',
+    q: 'queen',
+    p: 'pawn',
   }
 
   const boardMapping = []
@@ -40,3 +40,8 @@ const convertFenToBoardMapping = (fen) => {
   boardMapping.push(buffRow)
   return boardMapping
 }
+
+let fen = 'rnbqkbnr/pppppppp/8/8/8/7P/PPPPPPP1/RNBQKBNR'
+
+let res = convertFenToBoardMapping(fen)
+console.log(res)

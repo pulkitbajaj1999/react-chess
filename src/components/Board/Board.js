@@ -1,60 +1,55 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { boardActions } from '../../store/board'
 import './Board.css'
 import Piece from './Piece'
+import { convertFenToBoardMapping } from '../../utils/board'
+import { boardActions } from '../../store/board'
 
-const convertFenToBoardMapping = (fen) => {
-  const isDigit = (symbol) => {
-    return Number.isInteger(+symbol)
-  }
-  const isUpper = (symbol) => {
-    return symbol === symbol.toUpperCase()
-  }
-  const mappedPieceData = {
-    r: 'rook',
-    b: 'bishop',
-    n: 'knight',
-    k: 'king',
-    q: 'queen',
-    p: 'pawn',
-  }
+const BoardView = (props) => {
+  const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+  const ranks = ['8', '7', '6', '5', '4', '3', '2', '1']
+  const boardPiecesMatrix = []
 
-  const boardMapping = []
-  const sections = fen.split(' ')
-  const positionsSec = sections[0]
-
-  let row = 0
-  let col = 0
-  let buffRow = Array(8).fill(null)
-  for (let symbol of positionsSec) {
-    if (symbol === '/') {
-      boardMapping.push(buffRow)
-      buffRow = Array(8).fill(null)
-      row++
-      col = 0
-    } else if (isDigit(symbol)) {
-      col += +symbol
-    } else {
-      buffRow[col] = {
-        pieceColor: isUpper(symbol) ? 'white' : 'black',
-        pieceType: mappedPieceData[symbol.toLowerCase()],
-      }
-      col++
+  for (let i = 0; i < 8; i++) {
+    const currRowData = []
+    for (let j = 0; j < 8; j++) {
+      const [row, col] = props.whiteFaceView ? [i, j] : [7 - i, 7 - j]
+      const rank = ranks[row]
+      const file = files[col]
+      currRowData.push(
+        <Piece
+          key={file + rank}
+          file={file}
+          rank={rank}
+          row={row}
+          col={col}
+          squareData={props.boardMapping[row][col]}
+          isActive={
+            props.moveLock.flag &&
+            props.moveLock.col === col &&
+            props.moveLock.row === row
+          }
+          onClick={props.onClick.bind(null, row, col)}
+        />
+      )
     }
+    boardPiecesMatrix.push(
+      <tr key={i} className={`row-${i}`}>
+        {currRowData}
+      </tr>
+    )
   }
-  boardMapping.push(buffRow)
-  return boardMapping
+  return (
+    <table className={`board ${props.face}-view`}>
+      <tbody>{boardPiecesMatrix}</tbody>
+    </table>
+  )
 }
-
-const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-const ranks = ['8', '7', '6', '5', '4', '3', '2', '1']
 
 const Board = () => {
   console.log('render-board')
   const boardState = useSelector((state) => state.board)
-  // console.log(boardState)
   const dispatch = useDispatch()
 
   const boardMapping = convertFenToBoardMapping(boardState.currentState)
@@ -99,7 +94,7 @@ const Board = () => {
 
   const checkValidityFrom = (row, col) => {
     const squareData = boardMapping[row][col]
-    const colorToMove = boardState.whiteChance ? 'white' : 'black'
+    const colorToMove = boardState.whiteToMove ? 'white' : 'black'
     return squareData && squareData.pieceColor === colorToMove
   }
 
@@ -112,7 +107,7 @@ const Board = () => {
     )
   }
 
-  const clickHandler = (row, col) => {
+  const clickHandler = (row = 0, col = 0) => {
     if (moveLock.flag === false) {
       checkValidityFrom(row, col)
         ? lockSquare(row, col)
@@ -123,33 +118,16 @@ const Board = () => {
       checkValidityTo(row, col) ? makeMove(row, col) : alertInvalidTo(row, col)
     }
   }
-
   return (
-    <table>
-      <tbody>
-        {ranks.map((rank, row) => (
-          <tr key={rank}>
-            {files.map((file, col) => (
-              <Piece
-                key={file + rank}
-                file={file}
-                rank={rank}
-                row={row}
-                col={col}
-                squareData={boardMapping[row][col]}
-                isActive={
-                  moveLock.flag && moveLock.col === col && moveLock.row === row
-                }
-                onClick={clickHandler.bind(null, row, col)}
-              />
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="board-component">
+      <BoardView
+        moveLock={moveLock}
+        boardMapping={boardMapping}
+        whiteFaceView={boardState.whiteFaceView}
+        onClick={clickHandler}
+      />
+    </div>
   )
 }
 
 export default Board
-
-// rnbqkbnr/pppppppp/8/8/8/7P/PPPPPPP1/RNBQKBNR

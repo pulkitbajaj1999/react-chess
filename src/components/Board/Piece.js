@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 const Piece = (props) => {
   console.log('render-piece')
@@ -19,7 +19,7 @@ const Piece = (props) => {
       : ''
   }
 
-  const pieceClasses = `${getSquareColor(
+  const squareClasses = `${getSquareColor(
     props.rank,
     props.file
   )} ${getPieceClass()} ${props.isActive ? 'active' : ''}`
@@ -27,7 +27,7 @@ const Piece = (props) => {
   return (
     <td
       id={props.file + props.rank}
-      className={pieceClasses}
+      className={squareClasses}
       onClick={props.onClick}
     >
       <span>{props.rank === '1' && props.file}</span>

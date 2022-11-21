@@ -1,17 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-// const getExpandedState = (fen) => {
-//   fen = fen.replace(/1/g, '.')
-//   fen = fen.replace(/2/g, '..')
-//   fen = fen.replace(/3/g, '...')
-//   fen = fen.replace(/4/g, '....')
-//   fen = fen.replace(/5/g, '.....')
-//   fen = fen.replace(/6/g, '......')
-//   fen = fen.replace(/7/g, '.......')
-//   fen = fen.replace(/8/g, '........')
-//   return fen.split('/')
-// }
-
 const getExpandedState = (fen) => {
   fen = fen.replace(/1/g, '.')
   fen = fen.replace(/2/g, '..')
@@ -48,17 +36,20 @@ const getFenFromExpandedState = (expandedState) => {
   return fen.substring(0, fen.length - 1)
 }
 
+const initialState = {
+  prevStates: [],
+  currentState: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR,',
+  expandedState: getExpandedState(
+    'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
+  ),
+  whiteToMove: true,
+  totalMoves: 0,
+  whiteFaceView: true,
+}
+
 const boardSlice = createSlice({
   name: 'board',
-  initialState: {
-    prevStates: [],
-    currentState: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR,',
-    expandedState: getExpandedState(
-      'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
-    ),
-    whiteChance: true,
-    totalMoves: 0,
-  },
+  initialState,
   reducers: {
     makeMove: (state, action) => {
       console.log('payload', action.payload)
@@ -69,20 +60,22 @@ const boardSlice = createSlice({
       state.prevStates.push(state.currentState)
       state.currentState = getFenFromExpandedState(state.expandedState)
       state.totalMoves++
-      state.whiteChance = !state.whiteChance
-    },
-    testMove: (state) => {
-      state.prevStates.push(state.currentState)
-      state.currentState = 'rnbqkbnr/pppppppp/8/8/8/7P/PPPPPPP1/RNBQKBNR'
-      state.whiteChance = !state.whiteChance
-      state.totalMoves++
+      state.whiteToMove = !state.whiteToMove
     },
     reverseMove: (state) => {
-      if (state.prevStates.length === 0) return
-      state.currentState = state.prevStates.pop()
-      state.expandedState = getExpandedState(state.currentState)
-      state.whiteChance = !state.whiteChance
-      state.totalMoves--
+      if (state.prevStates.length > 0) {
+        state.currentState = state.prevStates.pop()
+        state.expandedState = getExpandedState(state.currentState)
+        state.whiteToMove = !state.whiteToMove
+        state.totalMoves--
+      }
+    },
+    changeView: (state) => {
+      state.whiteFaceView = !state.whiteFaceView
+    },
+    reset: (state) => {
+      console.log('restarting')
+      return initialState
     },
   },
 })

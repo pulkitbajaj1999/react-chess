@@ -1,43 +1,25 @@
-/* TABLE-STYLE */
+.board-component {
+  height: 100%;
+}
+
 table {
+  height: 100vh;
+  width: 100vh;
+  table-layout: fixed;
   margin: auto;
 }
 
-table,
-tr,
-td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-
-tr {
-  height: 60px;
-}
-
-td {
-  width: 60px;
-}
-
-h1 {
-  color: blue;
-}
-
-/* OTHER STYLE */
-.top-bar {
-  display: inline-block;
-}
-
-/* CHESS-LOGIC */
+/* BACKGROUND COLOR */
 .white {
   background-color: white;
 }
 
-.black {
-  background-color: burlywood;
-}
-
 .white.active {
   background-color: rgb(250, 234, 128);
+}
+
+.black {
+  background-color: burlywood;
 }
 
 .black.active {
@@ -47,49 +29,73 @@ h1 {
 /* PIECE IMAGES */
 
 .black-rook {
-  background-image: url(../../assets/images/brook.png);
+  background-image: url(../../assets/images/br.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .white-rook {
-  background-image: url(../../assets/images/wrook.png);
+  background-image: url(../../assets/images/wr.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .black-knight {
-  background-image: url(../../assets/images/bknight.png);
+  background-image: url(../../assets/images/bk.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .white-knight {
-  background-image: url(../../assets/images/wknight.png);
+  background-image: url(../../assets/images/wk.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .black-bishop {
-  background-image: url(../../assets/images/bbishop.png);
+  background-image: url(../../assets/images/bb.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .white-bishop {
-  background-image: url(../../assets/images/wbishop.png);
+  background-image: url(../../assets/images/wb.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .black-king {
-  background-image: url(../../assets/images/bking.png);
+  background-image: url(../../assets/images/bk.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .white-king {
-  background-image: url(../../assets/images/wking.png);
+  background-image: url(../../assets/images/wk.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .black-queen {
-  background-image: url(../../assets/images/bqueen.png);
+  background-image: url(../../assets/images/bq.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .white-queen {
-  background-image: url(../../assets/images/wqueen.png);
+  background-image: url(../../assets/images/wq.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .black-pawn {
-  background-image: url(../../assets/images/bpawn.png);
+  background-image: url(../../assets/images/bp.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .white-pawn {
-  background-image: url(../../assets/images/wpawn.png);
+  background-image: url(../../assets/images/wp.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }

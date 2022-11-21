@@ -1,0 +1,15 @@
+.nav-component {
+  display: grid;
+  align-content: start;
+  background: #262421;
+  width: 20%;
+  height: 100%;
+  min-width: 15%;
+  flex-grow: 0.5;
+}
+
+.nav-component .nav-link-component {
+  color: white;
+  margin: 10px 5px;
+  padding: 10px 8px;
+}

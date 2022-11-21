@@ -1,14 +1,15 @@
 import React from 'react'
 
-import logo from './logo.svg'
+import Navigation from './components/Navigation/Navigation'
 import Board from './components/Board/Board'
-import Header from './components/Header/Header'
+import Sidebar from './components/Sidebar/Sidebar'
 
 function App() {
   return (
     <React.Fragment>
-      <Header />
+      <Navigation />
       <Board />
+      <Sidebar />
     </React.Fragment>
   )
 }

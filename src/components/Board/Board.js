@@ -17,6 +17,9 @@ const BoardView = (props) => {
       const [row, col] = props.whiteFaceView ? [i, j] : [7 - i, 7 - j]
       const rank = ranks[row]
       const file = files[col]
+      const showCoordinate = props.whiteFaceView
+        ? { rank: col === 0, file: row === 7 }
+        : { rank: col === 7, file: row === 0 }
       currRowData.push(
         <Piece
           key={file + rank}
@@ -30,6 +33,7 @@ const BoardView = (props) => {
             props.moveLock.col === col &&
             props.moveLock.row === row
           }
+          showCoordinate={showCoordinate}
           onClick={props.onClick.bind(null, row, col)}
         />
       )

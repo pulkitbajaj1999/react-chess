@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { boardActions } from '../../store/board'
+import ButtonLarge from '../../UI/ButtonLarge'
 import classes from './Sidebar.module.css'
 
 const Sidebar = () => {
@@ -23,9 +24,9 @@ const Sidebar = () => {
   return (
     <div className={classes['sidebar-component']}>
       <div className={classes['sidebar-control']}>
-        <button onClick={flipBoardHandler}>Flip</button>
-        <button onClick={undoHandler}>Undo</button>
-        <button onClick={resetHandler}>Reset</button>
+        <ButtonLarge onClick={flipBoardHandler}>Flip</ButtonLarge>
+        <ButtonLarge onClick={undoHandler}>Undo</ButtonLarge>
+        <ButtonLarge onClick={resetHandler}>Reset</ButtonLarge>
       </div>
     </div>
   )

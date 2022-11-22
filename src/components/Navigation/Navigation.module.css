@@ -8,6 +8,15 @@
   flex-grow: 0.5;
 }
 
+.nav-component .nav-head-component {
+  color: white;
+  margin: 10px 5px;
+  padding: 10px 8px;
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+}
+
 .nav-component .nav-link-component {
   color: white;
   margin: 10px 5px;

@@ -9,6 +9,37 @@ table {
   margin: auto;
 }
 
+.piece {
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.piece.white span {
+  color: burlywood;
+}
+
+.piece.black span {
+  color: white;
+}
+
+span {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.coordinate-rank {
+  position: absolute;
+  top: 2%;
+  left: 2%;
+}
+
+.coordinate-file {
+  position: absolute;
+  right: 4%;
+  bottom: 2%;
+}
+
 /* BACKGROUND COLOR */
 .white {
   background-color: white;
@@ -26,76 +57,52 @@ table {
   background-color: rgb(242, 213, 28);
 }
 
-/* PIECE IMAGES */
 
+/* PIECE IMAGES */
 .black-rook {
   background-image: url(../../assets/images/br.png);
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .white-rook {
   background-image: url(../../assets/images/wr.png);
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .black-knight {
-  background-image: url(../../assets/images/bk.png);
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-image: url(../../assets/images/bn.png);
 }
 
 .white-knight {
-  background-image: url(../../assets/images/wk.png);
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-image: url(../../assets/images/wn.png);
 }
 
 .black-bishop {
   background-image: url(../../assets/images/bb.png);
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .white-bishop {
   background-image: url(../../assets/images/wb.png);
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .black-king {
   background-image: url(../../assets/images/bk.png);
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .white-king {
   background-image: url(../../assets/images/wk.png);
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .black-queen {
   background-image: url(../../assets/images/bq.png);
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .white-queen {
   background-image: url(../../assets/images/wq.png);
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .black-pawn {
   background-image: url(../../assets/images/bp.png);
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .white-pawn {
   background-image: url(../../assets/images/wp.png);
-  background-size: cover;
-  background-repeat: no-repeat;
 }

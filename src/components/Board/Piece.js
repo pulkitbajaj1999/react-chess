@@ -19,7 +19,7 @@ const Piece = (props) => {
       : ''
   }
 
-  const squareClasses = `${getSquareColor(
+  const squareClasses = `piece ${getSquareColor(
     props.rank,
     props.file
   )} ${getPieceClass()} ${props.isActive ? 'active' : ''}`
@@ -30,8 +30,12 @@ const Piece = (props) => {
       className={squareClasses}
       onClick={props.onClick}
     >
-      <span>{props.rank === '1' && props.file}</span>
-      <span>{props.file === 'a' && props.rank}</span>
+      {props.showCoordinate.rank && (
+        <span className="coordinate-rank">{props.rank}</span>
+      )}
+      {props.showCoordinate.file && (
+        <span className="coordinate-file">{props.file}</span>
+      )}
     </td>
   )
 }

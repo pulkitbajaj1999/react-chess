@@ -1,14 +1,24 @@
 .nav-component {
   display: grid;
-  align-content: start;
+  align-content: space-between;
   background: #262421;
-  width: 20%;
-  height: 100%;
   min-width: 15%;
   flex-grow: 0.5;
+  width: 20%;
+  height: 100%;
 }
 
-.nav-component .nav-head-component {
+.nav-top {
+  display: grid;
+  align-content: start;
+}
+
+.nav-bottom {
+  display: grid;
+  margin-bottom: 0.5rem;
+}
+
+.nav-head-component {
   color: white;
   margin: 10px 5px;
   padding: 10px 8px;
@@ -17,8 +27,36 @@
   text-align: center;
 }
 
-.nav-component .nav-link-component {
+.nav-link-component {
   color: white;
   margin: 10px 5px;
   padding: 10px 8px;
+  text-align: center;
+}
+
+.nav-link-component:hover {
+  background-color: rgba(0,0,10,.14);
+  cursor: pointer;
+}
+
+.nav-link-component:hover span {
+  font-size: large;
+  font-weight: 1000;
+}
+
+.nav-session-component {
+  display: grid;
+  align-content: space-between;
+  gap: 1rem;
+  color: white;
+  margin: 10px 5px;
+  padding: 10px 8px;
+  font-weight: 800;
+  text-align: center;
+  background-color:  rgba(0,0,10,.14);
+}
+
+.nav-session-component span {
+  color:  hsla(0,0%,100%,.5);
+  font-size: 1rem;
 }

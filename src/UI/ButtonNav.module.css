@@ -1,0 +1,24 @@
+.button-nav {
+  min-height: 4rem;
+  width: 100%;
+  background-color: #7fa650;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 600;
+  box-sizing: border-box;
+  cursor: pointer;
+  border: 0;
+  border-radius: 1rem;
+  box-shadow: 0 .5rem 0 0 #537133, 0 .7rem .95rem .05rem var(--secondaryBorderColor);
+  --secondaryBorderColor: rgba(0,0,0,.2);
+
+  transition: all .07s;
+  overflow: hidden;
+  align-items: center;
+  text-align: center;
+}
+
+.button-nav:hover {
+  background-color: #95bb4a;
+  --secondaryBorderColor: rgba(127,166,80,.5);
+}

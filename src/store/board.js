@@ -38,10 +38,17 @@ const getFenFromExpandedState = (expandedState) => {
 
 const initialState = {
   prevStates: [],
-  currentState: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR,',
-  expandedState: getExpandedState(
-    'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
-  ),
+  currentState: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR',
+  expandedState: [
+    ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+    ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['.', '.', '.', '.', '.', '.', '.', '.'],
+    ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+    ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
+  ],
   whiteToMove: true,
   totalMoves: 0,
   whiteFaceView: true,
@@ -76,6 +83,10 @@ const boardSlice = createSlice({
     reset: (state) => {
       console.log('restarting')
       return initialState
+    },
+    loadSession: (state, action) => {
+      console.log('action', action)
+      return action.payload.boardState
     },
   },
 })

@@ -12,11 +12,12 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "react-scripts": "5.0.1",
+    "socket.io-client": "^4.5.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "REACT_APP_BASE_URL='' react-scripts build",
+    "build": "REACT_APP_BASE_URL='' react-scripts build && (rm -rf /home/pulkit/dev19/node/chess19/react-build && mv build /home/pulkit/dev19/node/chess19/react-build)",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -51,7 +51,6 @@ const initialState = {
   ],
   whiteToMove: true,
   totalMoves: 0,
-  whiteFaceView: true,
 }
 
 const boardSlice = createSlice({
@@ -59,7 +58,6 @@ const boardSlice = createSlice({
   initialState,
   reducers: {
     makeMove: (state, action) => {
-      console.log('payload', action.payload)
       const { row: r1, col: c1 } = action.payload.from
       const { row: r2, col: c2 } = action.payload.to
       state.expandedState[r2][c2] = state.expandedState[r1][c1]
@@ -77,15 +75,10 @@ const boardSlice = createSlice({
         state.totalMoves--
       }
     },
-    changeView: (state) => {
-      state.whiteFaceView = !state.whiteFaceView
-    },
     reset: (state) => {
-      console.log('restarting')
       return initialState
     },
     loadSession: (state, action) => {
-      console.log('action', action)
       return action.payload.boardState
     },
   },

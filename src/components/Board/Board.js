@@ -1,10 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import io from 'socket.io-client'
 
 import './Board.css'
 import Piece from './Piece'
 import { convertFenToBoardMapping } from '../../utils/board'
 import { boardActions } from '../../store/board'
+import session from '../../store/session'
+
+const BASE_URL = process.env.REACT_APP_BASE_URL || ''
+const socket = io(BASE_URL)
+const clientID = Math.random().toString()
 
 const BoardView = (props) => {
   const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
@@ -52,12 +58,13 @@ const BoardView = (props) => {
 }
 
 const Board = () => {
-  console.log('render-board')
-  const boardState = useSelector((state) => state.board)
-  const dispatch = useDispatch()
+  console.log('---------------------------render-board')
 
+  const boardState = useSelector((state) => state.board)
   const boardMapping = convertFenToBoardMapping(boardState.currentState)
-  // console.log('boardmapping', boardMapping)
+
+  const sessionState = useSelector((state) => state.session)
+  const dispatch = useDispatch()
 
   const [moveLock, setMoveLock] = useState({
     flag: false,
@@ -65,8 +72,77 @@ const Board = () => {
     col: null,
   })
 
+  const [socketIsConnected, setSocketIsConnected] = useState(false)
+  const [events, setEvents] = useState([])
+
+  // initialize socket functions
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('socket connected')
+      // setSocketIsConnected(true)
+    })
+    socket.on('disconnect', () => {
+      console.log('socket disconnected')
+      // setSocketIsConnected(false)
+    })
+    socket.on('event', (data) => {
+      console.log('event-data', data)
+      if (data.clientID === clientID) {
+        console.log('event-on-same-client')
+      } else {
+        setEvents((state) => [...state, data])
+      }
+    })
+    return () => {
+      socket.off('connect')
+      socket.off('disconnect')
+      socket.off('event')
+    }
+  }, [])
+
+  // fetch new board state from backend
+  const url =
+    BASE_URL + '/api/v1/session/existing' + `?sessionID=${sessionState.id}`
+  useEffect(() => {
+    console.log('GET/existing-session', url)
+    fetch(url)
+      .then((res) => {
+        console.log('response(fetch-existing-session)', res)
+        return res.json()
+      })
+      .then((data) => {
+        console.log('data(fetch-existing-session)', data)
+        console.log('dispatching-loadSession')
+        dispatch(boardActions.loadSession({ boardState: data.boardState }))
+      })
+  }, [events])
+
+  // update session
+  useEffect(() => {
+    const sessionID = sessionState.id
+    if (sessionID) {
+      const url = BASE_URL + '/api/v1/session/update'
+      console.log('POST/update-session')
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          clientID: clientID,
+          sessionID: sessionState.id,
+          boardState: boardState,
+        }),
+      })
+        .then((res) => {
+          console.log('response(update-session)', res)
+          return res.json()
+        })
+        .then((data) => {
+          console.log('data(update-session)', data)
+        })
+    }
+  }, [boardState])
+
   const makeMove = (row, col) => {
-    console.log('making move')
     dispatch(
       boardActions.makeMove({
         from: { row: moveLock.row, col: moveLock.col },
@@ -127,7 +203,7 @@ const Board = () => {
       <BoardView
         moveLock={moveLock}
         boardMapping={boardMapping}
-        whiteFaceView={boardState.whiteFaceView}
+        whiteFaceView={sessionState.whiteFaceView}
         onClick={clickHandler}
       />
     </div>

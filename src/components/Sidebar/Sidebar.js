@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { boardActions } from '../../store/board'
+import { sessionActions } from '../../store/session'
 import ButtonLarge from '../../UI/ButtonLarge'
 import classes from './Sidebar.module.css'
 
@@ -10,7 +11,7 @@ const Sidebar = () => {
   const dispatch = useDispatch()
 
   const flipBoardHandler = () => {
-    dispatch(boardActions.changeView())
+    dispatch(sessionActions.flipView())
   }
 
   const undoHandler = () => {

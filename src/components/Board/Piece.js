@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Piece = (props) => {
-  console.log('render-piece')
+  // console.log('render-piece')
   const row = props.row
   const col = props.col
 

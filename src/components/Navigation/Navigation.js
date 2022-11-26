@@ -17,26 +17,40 @@ const Navigation = () => {
   const dispatch = useDispatch()
 
   // define current state variables
+  const [showLocalGameOverlay, setShowLocalGameOverlay] = useState(false)
   const [showNewSessionOverlay, setShowNewSessionOverlay] = useState(false)
   const [showJoinSessionOverlay, setShowJoinSessionOverlay] = useState(false)
   const [joinSessionError, setJoinSessionError] = useState('')
 
   // define handlers
-  const openNewSessionHandler = () => {
+  const openLocalGameOverlay = () => {
+    setShowLocalGameOverlay(true)
+  }
+
+  const closeLocalGameOverlay = () => {
+    setShowLocalGameOverlay(false)
+  }
+
+  const openNewSessionOverlay = () => {
     setShowNewSessionOverlay(true)
   }
 
-  const closeNewSessionHandler = () => {
+  const closeNewSessionOverlay = () => {
     setShowNewSessionOverlay(false)
   }
 
-  const openJoinSessionHandler = () => {
+  const openJoinSessionOverlay = () => {
     setShowJoinSessionOverlay(true)
   }
 
-  const closeJoinSessionHandler = () => {
+  const closeJoinSessionOverlay = () => {
     setShowJoinSessionOverlay(false)
     setJoinSessionError('')
+  }
+
+  const startLocalGameHandler = () => {
+    dispatch(sessionActions.deactivateSession())
+    closeLocalGameOverlay()
   }
 
   const startNewSessionHandler = () => {
@@ -56,7 +70,7 @@ const Navigation = () => {
         )
       })
       .then(() => {
-        closeNewSessionHandler()
+        closeNewSessionOverlay()
       })
   }
 
@@ -90,7 +104,7 @@ const Navigation = () => {
       })
       .then(() => {
         console.log('session-joined')
-        closeJoinSessionHandler()
+        closeJoinSessionOverlay()
       })
       .catch((error) => {
         setJoinSessionError(error.message)
@@ -102,14 +116,24 @@ const Navigation = () => {
       <div className={classes['nav-top']}>
         <div className={classes['nav-head-component']}>Chess19</div>
         <div
+          className={
+            sessionState.isActive
+              ? classes['nav-link-component']
+              : classes['nav-link-component-active']
+          }
+          onClick={sessionState.isActive ? openLocalGameOverlay : undefined}
+        >
+          <span>Local</span>
+        </div>
+        <div
           className={classes['nav-link-component']}
-          onClick={openNewSessionHandler}
+          onClick={openNewSessionOverlay}
         >
           <span>Start New</span>
         </div>
         <div
           className={classes['nav-link-component']}
-          onClick={openJoinSessionHandler}
+          onClick={openJoinSessionOverlay}
         >
           <span>Join</span>
         </div>
@@ -120,17 +144,23 @@ const Navigation = () => {
           <span className={classes['session-value']}>{sessionState.id}</span>
         </div>
       </div>
-      {showJoinSessionOverlay && (
-        <JoinSessionOverlay
-          onCloseOverlay={closeJoinSessionHandler}
-          onJoinSession={joinSessionHandler}
-          error={joinSessionError}
+      {showLocalGameOverlay && (
+        <NewSessionoverlay
+          onCloseOverlay={closeLocalGameOverlay}
+          onConfirm={startLocalGameHandler}
         />
       )}
       {showNewSessionOverlay && (
         <NewSessionoverlay
-          onCloseOverlay={closeNewSessionHandler}
+          onCloseOverlay={closeNewSessionOverlay}
           onConfirm={startNewSessionHandler}
+        />
+      )}
+      {showJoinSessionOverlay && (
+        <JoinSessionOverlay
+          onCloseOverlay={closeJoinSessionOverlay}
+          onJoinSession={joinSessionHandler}
+          error={joinSessionError}
         />
       )}
     </div>

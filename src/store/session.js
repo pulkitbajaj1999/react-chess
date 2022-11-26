@@ -1,13 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const INITIAL_STATE = {
+  isActive: false,
+  id: 'local',
+  currentState: '',
+  whiteFaceView: true,
+}
 const sessionSlice = createSlice({
   name: 'session',
-  initialState: {
-    isActive: false,
-    id: 'local',
-    currentState: '',
-    whiteFaceView: true,
-  },
+  initialState: INITIAL_STATE,
   reducers: {
     setSession: (state, action) => {
       state.isActive = true
@@ -21,6 +22,9 @@ const sessionSlice = createSlice({
     },
     flipView: (state) => {
       state.whiteFaceView = !state.whiteFaceView
+    },
+    deactivateSession: (state) => {
+      return INITIAL_STATE
     },
   },
 })

@@ -40,3 +40,39 @@ export const convertFenToBoardMapping = (fen) => {
   boardMapping.push(buffRow)
   return boardMapping
 }
+
+export const getExpandedState = (fen) => {
+  fen = fen.replace(/1/g, '.')
+  fen = fen.replace(/2/g, '..')
+  fen = fen.replace(/3/g, '...')
+  fen = fen.replace(/4/g, '....')
+  fen = fen.replace(/5/g, '.....')
+  fen = fen.replace(/6/g, '......')
+  fen = fen.replace(/7/g, '.......')
+  fen = fen.replace(/8/g, '........')
+  let matrix = fen.split('/').map((row) => Array.from(row))
+  return matrix
+}
+
+export const getFenFromExpandedState = (expandedState) => {
+  let fen = ''
+  for (let row of expandedState) {
+    let buff = 0
+    for (let el of row) {
+      if (el === '.') buff++
+      else {
+        if (buff) {
+          fen += buff.toString()
+          buff = 0
+        }
+        fen += el
+      }
+    }
+    if (buff) {
+      fen += buff.toString()
+      buff = 0
+    }
+    fen += '/'
+  }
+  return fen.substring(0, fen.length - 1)
+}

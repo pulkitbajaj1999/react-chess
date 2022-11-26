@@ -1,40 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-const getExpandedState = (fen) => {
-  fen = fen.replace(/1/g, '.')
-  fen = fen.replace(/2/g, '..')
-  fen = fen.replace(/3/g, '...')
-  fen = fen.replace(/4/g, '....')
-  fen = fen.replace(/5/g, '.....')
-  fen = fen.replace(/6/g, '......')
-  fen = fen.replace(/7/g, '.......')
-  fen = fen.replace(/8/g, '........')
-  let matrix = fen.split('/').map((row) => Array.from(row))
-  return matrix
-}
-
-const getFenFromExpandedState = (expandedState) => {
-  let fen = ''
-  for (let row of expandedState) {
-    let buff = 0
-    for (let el of row) {
-      if (el === '.') buff++
-      else {
-        if (buff) {
-          fen += buff.toString()
-          buff = 0
-        }
-        fen += el
-      }
-    }
-    if (buff) {
-      fen += buff.toString()
-      buff = 0
-    }
-    fen += '/'
-  }
-  return fen.substring(0, fen.length - 1)
-}
+import { getExpandedState, getFenFromExpandedState } from '../utils/board'
 
 const initialState = {
   prevStates: [],
@@ -50,6 +15,7 @@ const initialState = {
     ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
   ],
   whiteToMove: true,
+  whiteFaceView: true,
   totalMoves: 0,
 }
 
@@ -75,11 +41,11 @@ const boardSlice = createSlice({
         state.totalMoves--
       }
     },
+    flipView: (state) => {
+      state.whiteFaceView = !state.whiteFaceView
+    },
     reset: (state) => {
       return initialState
-    },
-    loadSession: (state, action) => {
-      return action.payload.boardState
     },
   },
 })

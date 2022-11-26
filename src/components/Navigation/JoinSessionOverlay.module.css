@@ -22,6 +22,14 @@
   padding: 1rem;
 }
 
+.error {
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: red;
+}
+
 .actions {
   padding: 1rem;
   display: flex;

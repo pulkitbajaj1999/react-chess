@@ -15,7 +15,11 @@ const JoinSessionOverlay = (props) => {
       props.onJoinSession(sessionID)
     }
   }
-
+  const enterHandler = (event) => {
+    if (event.key === 'Enter') {
+      okHandler()
+    }
+  }
   return (
     <React.Fragment>
       {ReactDOM.createPortal(
@@ -27,9 +31,14 @@ const JoinSessionOverlay = (props) => {
           <header className={classes.header}>
             <h2>Join Session</h2>
           </header>
+          {props.error && <div className={classes.error}>{props.error}</div>}
           <div className={classes.input}>
             <label htmlFor="session-input">SessionId</label>
-            <input id="session-input" ref={sessionRef} />
+            <input
+              id="session-input"
+              ref={sessionRef}
+              onKeyDown={enterHandler}
+            />
           </div>
           <footer className={classes.actions}>
             <Button onClick={okHandler}>OK</Button>

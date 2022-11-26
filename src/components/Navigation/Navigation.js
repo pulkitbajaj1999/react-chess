@@ -19,46 +19,9 @@ const Navigation = () => {
   // define current state variables
   const [showNewSessionOverlay, setShowNewSessionOverlay] = useState(false)
   const [showJoinSessionOverlay, setShowJoinSessionOverlay] = useState(false)
+  const [joinSessionError, setJoinSessionError] = useState('')
 
-  // define functions
-  const startNewSessionHandler = () => {
-    const url = BASE_URL + '/api/v1/session/new'
-    fetch(url)
-      .then((res) => {
-        console.log('start-new-session-handler', 'response: ', res)
-        return res.json()
-      })
-      .then((data) => {
-        console.log('data', data)
-        const { sessionID, boardState } = data
-        dispatch(sessionActions.setID(sessionID))
-        dispatch(boardActions.loadSession({ sessionID, boardState }))
-      })
-      .then(() => {
-        closeNewSessionHandler()
-      })
-  }
-
-  const joinSessionHandler = (sessionID) => {
-    const url =
-      BASE_URL + '/api/v1/session/existing' + `?sessionID=${sessionID}`
-    fetch(url)
-      .then((res) => {
-        console.log('join-session-handler', 'response: ', res)
-        return res.json()
-      })
-      .then((data) => {
-        console.log('data', data)
-        const { sessionID, boardState } = data
-        dispatch(sessionActions.setID(sessionID))
-        dispatch(boardActions.loadSession({ sessionID, boardState }))
-      })
-      .then(() => {
-        console.log('session-joined')
-        setShowJoinSessionOverlay(false)
-      })
-  }
-
+  // define handlers
   const openNewSessionHandler = () => {
     setShowNewSessionOverlay(true)
   }
@@ -73,6 +36,65 @@ const Navigation = () => {
 
   const closeJoinSessionHandler = () => {
     setShowJoinSessionOverlay(false)
+    setJoinSessionError('')
+  }
+
+  const startNewSessionHandler = () => {
+    const url = BASE_URL + '/api/v1/session/new'
+    console.log('GET/new-session')
+    fetch(url)
+      .then((res) => {
+        console.log('res(get-new-session)', res)
+        return res.json()
+      })
+      .then((data) => {
+        console.log('data(get-new-session)', data)
+        const { sessionID, currentState } = data
+        const whiteFaceView = true
+        dispatch(
+          sessionActions.setSession({ sessionID, currentState, whiteFaceView })
+        )
+      })
+      .then(() => {
+        closeNewSessionHandler()
+      })
+  }
+
+  const joinSessionHandler = (sessionID) => {
+    const url =
+      BASE_URL + '/api/v1/session/existing' + `?sessionID=${sessionID}`
+    console.log('GET/existing-session')
+    fetch(url)
+      .then((res) => {
+        console.log('response(join-existing-sesssion)', res)
+        if (res.status === 404) throw Error('Error while fetching session')
+        return res.json()
+      })
+      .then((data) => {
+        console.log('data(join-existing-session)', data)
+        const currentState = data.currentState
+        const whiteFaceView = false
+        if (currentState) {
+          dispatch(
+            sessionActions.setSession({
+              sessionID,
+              currentState,
+              whiteFaceView,
+            })
+          )
+        } else if (data.error) {
+          throw Error(data.error)
+        } else {
+          throw Error('Improper session data')
+        }
+      })
+      .then(() => {
+        console.log('session-joined')
+        closeJoinSessionHandler()
+      })
+      .catch((error) => {
+        setJoinSessionError(error.message)
+      })
   }
 
   return (
@@ -102,6 +124,7 @@ const Navigation = () => {
         <JoinSessionOverlay
           onCloseOverlay={closeJoinSessionHandler}
           onJoinSession={joinSessionHandler}
+          error={joinSessionError}
         />
       )}
       {showNewSessionOverlay && (
